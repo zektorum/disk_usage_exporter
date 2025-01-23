@@ -85,3 +85,4 @@ if __name__ == "__main__":
             process_directories(args.search_root, disk_usage, label)
     except Exception as e:
         logger.error(e)
+        logger.error(e.args)
