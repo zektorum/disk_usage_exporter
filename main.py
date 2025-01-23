@@ -20,8 +20,8 @@ def process_directories(search_root: str, metric: Gauge, label_name: str):
 def parse_output(raw_data: str) -> Dict[str, str]:
     size, directory = raw_data.split()
 
-    logger.debug(f"Size: {size}")
     logger.debug(f"Directory: {directory}")
+    logger.debug(f"Size: {size}")
 
     return {
         "directory": directory,
