@@ -11,6 +11,7 @@ import sh
 
 def process_directories(search_root: str, metric: Gauge, label_name: str):
     for dirpath, dirnames, filenames in os.walk(search_root):
+        logger.debug(f"Directories: {dirnames}")
         for dirname in dirnames:
             dirname = os.path.join(args.search_root, dirname)
 
