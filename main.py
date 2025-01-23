@@ -12,10 +12,8 @@ def process_directories(search_root: str, metric: Gauge, label_name: str):
     for dirpath, dirnames, filenames in os.walk(search_root):
         for dirname in dirnames:
             dirname = os.path.join(args.search_root, dirname)
-
-            logger.debug(f"Directory: {dirname}")
-
             label_value, value = get_dir_stat(dirname)
+
             set_metric(metric, label_name, label_value, value)
 
 
