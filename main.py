@@ -20,6 +20,7 @@ def process_directories(search_root: str, metric: Gauge, label_name: str):
                 continue
 
             set_metric(metric, label_name, label_value, value)
+        break
 
 
 def parse_output(raw_data: str) -> Dict[str, str]:
