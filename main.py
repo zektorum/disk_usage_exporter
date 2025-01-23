@@ -22,7 +22,10 @@ def process_directories(search_root: str, metric: Gauge, label_name: str):
 
 
 def parse_output(raw_data: str) -> Dict[str, str]:
-    size, directory = raw_data.split()
+    if raw_data:
+        size, directory = raw_data.split()
+    else:
+        size, directory = "", ""
 
     logger.debug(f"Directory: {directory}")
     logger.debug(f"Size: {size}")
@@ -39,9 +42,7 @@ def get_dir_stat(dirname: str) -> Tuple[str, str]:
     logger.info(dir_stat[:-1])
 
     parsed_output = parse_output(dir_stat)
-    if parsed_output:
-        return parsed_output["directory"], parsed_output["size"]
-    return "", ""
+    return parsed_output["directory"], parsed_output["size"]
 
 
 def set_metric(metric: Gauge, label_name: str, label_value: str, value: str):
