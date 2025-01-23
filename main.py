@@ -41,8 +41,6 @@ def parse_output(raw_data: str) -> Dict[str, str]:
 def get_dir_stat(dirname: str) -> Tuple[str, str]:
     dir_stat = sh.du("-s", dirname, _ok_code=[0, 1])
 
-    logger.info(dir_stat[:-1])
-
     parsed_output = parse_output(dir_stat)
     return parsed_output["directory"], parsed_output["size"]
 
