@@ -12,8 +12,9 @@ def process_directories(search_root: str, metric: Gauge, label_name: str):
     for dirpath, dirnames, filenames in os.walk(search_root):
         for dirname in dirnames:
             dirname = os.path.join(args.search_root, dirname)
+
             label_value, value = get_dir_stat(dirname)
-            if label_value.replace(" ", "") == "" or value.replace(" ", "") == "":
+            if label_value == "" or value == "":
                 continue
 
             set_metric(metric, label_name, label_value, value)
@@ -37,7 +38,9 @@ def get_dir_stat(dirname: str) -> Tuple[str, str]:
     logger.info(dir_stat[:-1])
 
     parsed_output = parse_output(dir_stat)
-    return parsed_output["directory"], parsed_output["size"]
+    if parsed_output:
+        return parsed_output["directory"], parsed_output["size"]
+    return "", ""
 
 
 def set_metric(metric: Gauge, label_name: str, label_value: str, value: str):
