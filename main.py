@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import sys
+import traceback
 from typing import Dict, Tuple
 
 from prometheus_client import start_http_server, Gauge
@@ -85,4 +86,4 @@ if __name__ == "__main__":
             process_directories(args.search_root, disk_usage, label)
     except Exception as e:
         logger.error(e)
-        logger.error(e.args)
+        logger.error(traceback.format_exc())
