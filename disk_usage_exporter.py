@@ -66,11 +66,23 @@ def get_logger(loglevel: str) -> logging.Logger:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--port", action="store", type=int, default="8100", required=False, help="")
-    parser.add_argument("--search-root", action="store", type=str, default="/", required=False, help="")
-    parser.add_argument("--max-depth", action="store", type=int, default=1, required=False, help="")
-    parser.add_argument("-d", "--debug", action="store_const", const=logging.DEBUG,
-                        dest="loglevel", default=logging.INFO, required=False, help="")
+    parser.add_argument(
+        "--port", action="store", type=int, default="8100", required=False,
+        help="specify metrics port"
+    )
+    parser.add_argument(
+        "--search-root", action="store", type=str, default="/", required=False,
+        help="specify the directory that will be used to search for subdirectories to analyze"
+    )
+    parser.add_argument(
+        "--max-depth", action="store", type=int, default=1, required=False,
+        help="specify max depth of subdirectory search"
+    )
+    parser.add_argument(
+        "-d", "--debug", action="store_const", const=logging.DEBUG,
+        dest="loglevel", default=logging.INFO, required=False,
+        help="enable debug logs"
+    )
     return parser.parse_args()
 
 
