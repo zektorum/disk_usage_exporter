@@ -10,12 +10,12 @@ import sh
 
 
 def process_directories(search_root: str, metric: Gauge, label_name: str):
-    for dirpath, dirnames, filenames in os.walk(search_root):
-        logger.debug(f"Directories: {dirnames}")
-        for dirname in dirnames:
-            dirname = os.path.join(args.search_root, dirname)
+    for dir_path, dir_names, filenames in os.walk(search_root):
+        logger.debug(f"Directories: {dir_names}")
+        for dir_name in dir_names:
+            dir_name = os.path.join(args.search_root, dir_name)
 
-            label_value, value = get_dir_stat(dirname)
+            label_value, value = get_dir_stat(dir_name)
             if label_value == "" or value == "":
                 continue
 
@@ -38,8 +38,8 @@ def parse_output(raw_data: str) -> Dict[str, str]:
     }
 
 
-def get_dir_stat(dirname: str) -> Tuple[str, str]:
-    dir_stat = sh.du("-s", dirname, _ok_code=[0, 1])
+def get_dir_stat(dir_name: str) -> Tuple[str, str]:
+    dir_stat = sh.du("-s", dir_name, _ok_code=[0, 1])
 
     parsed_output = parse_output(dir_stat)
     return parsed_output["directory"], parsed_output["size"]
