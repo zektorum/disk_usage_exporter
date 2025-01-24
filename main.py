@@ -79,7 +79,7 @@ if __name__ == "__main__":
     logger = get_logger(args.loglevel)
 
     label = "path"
-    disk_usage = Gauge("directory_disk_usage", "Directory size", [label])
+    disk_usage = Gauge("disk_usage_by_directories", "Directory size", [label])
 
     start_http_server(args.port)
     try:
