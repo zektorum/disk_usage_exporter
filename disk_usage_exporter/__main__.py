@@ -86,7 +86,7 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-if __name__ == "__main__":
+def main():
     args = parse_args()
     logger = get_logger(args.loglevel)
 
@@ -100,3 +100,7 @@ if __name__ == "__main__":
     except Exception as e:
         logger.error(e)
         logger.error(traceback.format_exc())
+
+
+if __name__ == "__main__":
+    main()
