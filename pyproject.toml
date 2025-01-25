@@ -29,3 +29,6 @@ Issues = "https://github.com/zektorum/disk_usage_exporter/issues"
 
 [project.scripts]
 executive = "disk_usage_exporter.disk_usage_exporter:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["disk_usage_exporter"]
