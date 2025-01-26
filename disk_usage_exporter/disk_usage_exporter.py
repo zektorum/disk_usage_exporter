@@ -5,11 +5,15 @@ import sys
 import traceback
 from typing import Dict, Tuple
 
+import disk_usage_exporter.constants as const
+
 from prometheus_client import start_http_server, Gauge
 import sh
 
 
-def process_directories(search_root: str, metric: Gauge, label_name: str, logger: logging.Logger):
+def process_directories(
+    search_root: str, metric: Gauge, label_name: str, logger: logging.Logger
+):
     for dir_path, dir_names, filenames in os.walk(search_root):
         logger.debug(f"Directories: {dir_names}")
         for dir_name in dir_names:
@@ -32,10 +36,7 @@ def parse_output(raw_data: str, logger: logging.Logger) -> Dict[str, str]:
     logger.debug(f"Directory: {directory}")
     logger.debug(f"Size: {size}")
 
-    return {
-        "directory": directory,
-        "size": size
-    }
+    return {"directory": directory, "size": size}
 
 
 def get_dir_stat(dir_name: str, logger: logging.Logger) -> Tuple[str, str]:
@@ -46,9 +47,7 @@ def get_dir_stat(dir_name: str, logger: logging.Logger) -> Tuple[str, str]:
 
 
 def set_metric(metric: Gauge, label_name: str, label_value: str, value: str):
-    metric.labels(
-        **{label_name: label_value}
-    ).set(float(value))
+    metric.labels(**{label_name: label_value}).set(float(value))
 
 
 def get_logger(loglevel: str) -> logging.Logger:
@@ -67,21 +66,43 @@ def get_logger(loglevel: str) -> logging.Logger:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--port", action="store", type=int, default="8100", required=False,
-        help="specify metrics port"
+        "--port",
+        action="store",
+        type=int,
+        default="8100",
+        required=False,
+        help="specify metrics port",
     )
     parser.add_argument(
-        "--search-root", action="store", type=str, default="/", required=False,
-        help="specify the directory that will be used to search for subdirectories to analyze"
+        "--search-root",
+        action="store",
+        type=str,
+        default=const.SEARCH_ROOT,
+        required=False,
+        help="specify the directory that will be used to search for subdirectories to analyze",
     )
     parser.add_argument(
-        "--max-depth", action="store", type=int, default=1, required=False,
-        help="specify max depth of subdirectory search"
+        "--max-depth",
+        action="store",
+        type=int,
+        default=const.MAX_DEPTH,
+        required=False,
+        help="specify max depth of subdirectory search",
     )
     parser.add_argument(
-        "-d", "--debug", action="store_const", const=logging.DEBUG,
-        dest="loglevel", default=logging.INFO, required=False,
-        help="enable debug logs"
+        "-d",
+        "--debug",
+        action="store_const",
+        const=logging.DEBUG,
+        dest="loglevel",
+        default=const.DEFAULT_LOG_LEVEL,
+        required=False,
+        help="enable debug logs",
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
     )
     return parser.parse_args()
 
@@ -90,8 +111,8 @@ def main():
     args = parse_args()
     logger = get_logger(args.loglevel)
 
-    label = "path"
-    disk_usage = Gauge("disk_usage_by_directories", "Directory size", [label])
+    label = const.METRIC_LABEL_NAME
+    disk_usage = Gauge(const.METRIC_NAME, const.METRIC_DESCRIPTION, [label])
 
     start_http_server(args.port)
     try:

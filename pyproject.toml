@@ -1,10 +1,9 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "disk_usage_exporter"
-version = "0.0.1"
 authors = [
     { name="Murad Murtuzaliev", email="muradmurtuzaliev404@gmail.com" },
 ]
@@ -16,19 +15,22 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Operating System :: POSIX :: Linux"
 ]
-license = "GPL-3.0-only"
-license-files = ["LICEN[CS]E*"]
-dependencies = [
-    "prometheus_client==0.21.1",
-    "sh==2.2.1",
-]
+dynamic = ["version", "dependencies"]
 
 [project-urls]
 Homepage = "https://github.com/zektorum/disk_usage_exporter"
 Issues = "https://github.com/zektorum/disk_usage_exporter/issues"
 
-[project.scripts]
-executive = "disk_usage_exporter.disk_usage_exporter:main"
+[tool.setuptools]
+license-files = ["LICENSE"]
 
-[tool.hatch.build.targets.wheel]
-packages = ["disk_usage_exporter"]
+[tool.setuptools.dynamic]
+version = { attr="disk_usage_exporter.__version__" }
+dependencies = { file="requirements.txt" }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["disk_usage_exporter"]
+
+[project.scripts]
+disk_usage_exporter = "disk_usage_exporter.disk_usage_exporter:main"
