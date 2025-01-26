@@ -1,0 +1,18 @@
+name: Run linter
+
+on: [push]
+
+env:
+  PYTHON_VERSION: 3.13
+  RUFF_VERSION: 0.9.3
+
+jobs:
+  run-ruff-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@4.2.2
+      - uses: actions/setup-python@5.3.0
+        with:
+          python-version: $PYTHON_VERSION
+      - run: pip install ruff==$RUFF_VERSION
+      - run: ruff check
