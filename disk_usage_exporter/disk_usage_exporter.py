@@ -103,6 +103,8 @@ def parse_args() -> argparse.Namespace:
         "-v",
         "--version",
         action="version",
+        dest="version",
+        version="%(prog)s " + const.VERSION
     )
     return parser.parse_args()
 
