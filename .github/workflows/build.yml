@@ -4,6 +4,7 @@ on: [push]
 
 env:
   PYTHON_VERSION: 3.13
+  ACTIONS_RUNNER_DEBUG: true
 
 jobs:
   build-binary:
