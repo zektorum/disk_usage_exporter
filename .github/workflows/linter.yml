@@ -8,7 +8,7 @@ env:
 
 jobs:
   run-ruff-check:
-    runs-on: ubuntu-latest
+    runs-on: gha-runner-scale-set
     steps:
       - uses: actions/checkout@4.2.2
       - uses: actions/setup-python@5.3.0
