@@ -1,6 +1,26 @@
 # disk_usage_exporter
 Exporter for disk usage metrics.
 
+## Installation
+### From PyPi (soon)
+```bash
+sudo -H pip install disk_usage_exporter
+```
+### From source
+1. Install `build` package
+```bash
+python -m pip install build
+```
+2. Build package
+```bash
+python -m build
+```
+3. Install package
+```bash
+VERSION=0.0.1
+sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
+```
+
 ## Prometheus configuration
 `/etc/prometheus/prometheus.yml`
 ```yml
