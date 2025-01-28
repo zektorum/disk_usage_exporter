@@ -32,5 +32,8 @@ dependencies = { file="requirements.txt" }
 where = ["."]
 include = ["disk_usage_exporter"]
 
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
 [project.scripts]
 disk_usage_exporter = "disk_usage_exporter.disk_usage_exporter:main"
