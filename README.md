@@ -24,10 +24,10 @@ ExecStart=disk_usage_exporter
 WantedBy=multi-user.target
 ```
 
-ToDo:
+## ToDo:
 - [ ] Make getting values asynchronous
-- [+] Make project structure similar to other prometheus exporters
+- [x] Make project structure similar to other prometheus exporters
 - [ ] Add informative logging messages
-- [+] Add CI with linter
-- [+] Add tests
+- [x] Add CI with linter
+- [x] Add tests
 - [ ] Add name for python process
