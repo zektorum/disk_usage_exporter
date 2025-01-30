@@ -69,7 +69,7 @@ Exporter for disk usage metrics.
 </details>
 
 ## Installation
-### From PyPi (soon)
+### From PyPI (soon)
 ```bash
 sudo -H pip install disk_usage_exporter
 ```
@@ -88,6 +88,8 @@ VERSION=0.0.1
 sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
 ```
 
+## Usage
+
 ## Prometheus configuration
 `/etc/prometheus/prometheus.yml`
 ```yml
@@ -99,7 +101,7 @@ scrape_configs:
 ```
 
 ## Systemd unit
-`/etc/systemd/system/disk_usage_exporter.service`
+1. Create a file named `/etc/systemd/system/disk_usage_exporter.service` and include the following:
 ```ini
 [Unit]
 Description=disk_usage_exporter service
@@ -109,6 +111,14 @@ ExecStart=disk_usage_exporter
 
 [Install]
 WantedBy=multi-user.target
+```
+2. Reload the service files to include a new service:
+```
+sudo systemctl daemon-reload
+```
+3. Start service:
+```
+sudo systemctl start disk_usage_exporter
 ```
 
 ## ToDo:
