@@ -89,6 +89,19 @@ sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
 ```
 
 ## Usage
+```
+disk_usage_exporter [-h] [--port PORT] [--search-root SEARCH_ROOT] [--max-depth MAX_DEPTH] [-d] [-v]
+
+options:
+  -h, --help            show this help message and exit
+  --port PORT           specify metrics port
+  --search-root SEARCH_ROOT
+                        specify the directory that will be used to search for subdirectories to analyze
+  --max-depth MAX_DEPTH
+                        specify max depth of subdirectory search
+  -d, --debug           enable debug logs
+  -v, --version         show program's version number and exit
+```
 
 ## Prometheus configuration
 1. Add a new job to Prometheus configuration:
