@@ -91,6 +91,7 @@ sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
 ## Usage
 
 ## Prometheus configuration
+1. Add a new job to Prometheus configuration:
 `/etc/prometheus/prometheus.yml`
 ```yml
 ...
@@ -98,6 +99,11 @@ scrape_configs:
   - job_name: "disk_usage_exporter"
     static_configs:
       - targets: ["localhost:8100"] 
+```
+2. Restart Prometheus:
+```
+PROMETHEUS_PORT=9091
+curl -XPOST localhost:$PROMETHEUS_PORT/-/reload
 ```
 
 ## Systemd unit
