@@ -69,7 +69,7 @@ Exporter for disk usage metrics.
 </details>
 
 ## Installation
-### From PyPI (soon)
+### From PyPI
 ```bash
 sudo -H pip install disk_usage_exporter
 ```
