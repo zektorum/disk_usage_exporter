@@ -67,4 +67,4 @@ jobs:
           path: dist/
 
       - name: Push package
-        run: python -m twine upload --repository testpypi dist/*
+        run: python -m twine upload --repository testpypi dist/* --verbose
