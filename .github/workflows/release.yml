@@ -1,0 +1,66 @@
+name: Create release and publish package to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  PYTHON_VERSION: 3.13
+  BUILD_ARTIFACTS_NAME: build-artifacts
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.3.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Build package
+        run: python -m pip install build && python -m build
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4.6.1
+        with:
+          name: ${{ env.BUILD_ARTIFACTS_NAME }}
+          path: dist/
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$TAG" \
+            dist/* \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="${GITHUB_REPOSITORY#*/}-${TAG#v}" \
+            --generate-notes
+
+  publish-package:
+    runs-on: ubuntu-latest
+    needs: create-release
+    steps:
+      - name: Prepare environment to push package
+        run: |
+          python -m pip install twine
+          python -m pip install -U packaging
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4.1.9
+        with:
+          name: ${{ env.BUILD_ARTIFACTS_NAME }}
+          path: dist/
+
+      - name: Push package
+        run: python -m twine upload dist/* --verbose
