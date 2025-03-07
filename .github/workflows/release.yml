@@ -11,6 +11,7 @@ env:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   create-release:
@@ -43,7 +44,7 @@ jobs:
           gh release create "$TAG" \
             dist/* \
             --repo="$GITHUB_REPOSITORY" \
-            --title="${GITHUB_REPOSITORY#*/}-${tag#v}" \
+            --title="${GITHUB_REPOSITORY#*/}-${TAG#v}" \
             --generate-notes
 
   publish-package:
