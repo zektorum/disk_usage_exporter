@@ -97,8 +97,6 @@ options:
   --port PORT           specify metrics port
   --search-root SEARCH_ROOT
                         specify the directory that will be used to search for subdirectories to analyze
-  --max-depth MAX_DEPTH
-                        specify max depth of subdirectory search
   -d, --debug           enable debug logs
   -v, --version         show program's version number and exit
 ```
@@ -141,6 +139,7 @@ sudo systemctl start disk_usage_exporter
 ```
 
 ## ToDo:
+- [ ] Add `--max-depth` option
 - [ ] Make getting values asynchronous
 - [x] Make project structure similar to other prometheus exporters
 - [ ] Add informative logging messages

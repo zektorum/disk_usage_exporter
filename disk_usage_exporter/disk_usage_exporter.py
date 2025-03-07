@@ -81,14 +81,14 @@ def parse_args() -> argparse.Namespace:
         required=False,
         help="specify the directory that will be used to search for subdirectories to analyze",
     )
-    parser.add_argument(
-        "--max-depth",
-        action="store",
-        type=int,
-        default=const.MAX_DEPTH,
-        required=False,
-        help="specify max depth of subdirectory search",
-    )
+    # parser.add_argument(
+    #     "--max-depth",
+    #     action="store",
+    #     type=int,
+    #     default=const.MAX_DEPTH,
+    #     required=False,
+    #     help="specify max depth of subdirectory search",
+    # )
     parser.add_argument(
         "-d",
         "--debug",
