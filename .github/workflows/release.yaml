@@ -53,6 +53,7 @@ jobs:
       - name: Prepare environment to push package
         run: |
           python -m pip install twine
+          python -m pip install -U packaging
           cat <<EOF > ~/.pypirc
           [testpypi]
             username = __token__
