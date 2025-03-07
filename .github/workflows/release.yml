@@ -44,7 +44,7 @@ jobs:
           gh release create "$TAG" \
             dist/* \
             --repo="$GITHUB_REPOSITORY" \
-            --title="${GITHUB_REPOSITORY#*/}-${TAG#v}" \
+            --title="${GITHUB_REPOSITORY#*/}-v${TAG#v}" \
             --generate-notes
 
   publish-package:
