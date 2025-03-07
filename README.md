@@ -113,8 +113,9 @@ scrape_configs:
 ```
 2. Restart Prometheus:
 ```
+PROMETHEUS_HOST=localhost
 PROMETHEUS_PORT=9091
-curl -XPOST localhost:$PROMETHEUS_PORT/-/reload
+curl -XPOST $PROMETHEUS_HOST:$PROMETHEUS_PORT/-/reload
 ```
 
 ## Systemd unit
@@ -139,6 +140,7 @@ sudo systemctl start disk_usage_exporter
 ```
 
 ## ToDo:
+- [ ] Add `--host` option
 - [ ] Add `--max-depth` option
 - [ ] Make getting values asynchronous
 - [x] Make project structure similar to other prometheus exporters
