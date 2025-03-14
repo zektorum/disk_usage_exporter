@@ -3,7 +3,7 @@ from typing import Dict, List
 from prometheus_client import Gauge, Metric
 
 from disk_usage_exporter.disk_usage_exporter import set_metric
-from disk_usage_exporter.constants import METRIC_LABEL_NAME
+from disk_usage_exporter.const import METRIC_LABEL_NAME
 
 
 class TestMetricSetting:

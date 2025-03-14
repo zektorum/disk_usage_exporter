@@ -5,7 +5,7 @@ import sys
 import traceback
 from typing import Dict, Tuple
 
-import disk_usage_exporter.constants as const
+import disk_usage_exporter.const as const
 
 from prometheus_client import start_http_server, Gauge
 import sh
@@ -66,10 +66,18 @@ def get_logger(loglevel: str) -> logging.Logger:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
+        "--addr",
+        action="store",
+        type=str,
+        default=const.METRICS_HOST,
+        required=False,
+        help="specify metrics host"
+    )
+    parser.add_argument(
         "--port",
         action="store",
         type=int,
-        default="8100",
+        default=const.METRICS_PORT,
         required=False,
         help="specify metrics port",
     )
@@ -116,7 +124,7 @@ def main():
     label = const.METRIC_LABEL_NAME
     disk_usage = Gauge(const.METRIC_NAME, const.METRIC_DESCRIPTION, [label])
 
-    start_http_server(args.port)
+    start_http_server(args.port, args.addr)
     try:
         while True:
             process_directories(args.search_root, disk_usage, label, logger)

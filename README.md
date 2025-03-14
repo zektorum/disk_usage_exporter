@@ -140,6 +140,8 @@ sudo systemctl start disk_usage_exporter
 ```
 
 ## ToDo:
+- [ ] Rename `constants.py` to `const.py`
+- [ ] Add default host and port to `const.py`
 - [ ] Add `--host` option
 - [ ] Add `--max-depth` option
 - [ ] Make getting values asynchronous
