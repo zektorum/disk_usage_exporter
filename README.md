@@ -140,7 +140,9 @@ sudo systemctl start disk_usage_exporter
 ```
 
 ## ToDo:
-- [ ] Add `--host` option
+- [x] Rename `constants.py` to `const.py`
+- [x] Add default host and port to `const.py`
+- [x] Add `--host` option
 - [ ] Add `--max-depth` option
 - [ ] Make getting values asynchronous
 - [x] Make project structure similar to other prometheus exporters

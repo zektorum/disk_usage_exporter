@@ -8,7 +8,7 @@ from prometheus_client import CollectorRegistry, Gauge, Metric
 import pytest
 import sh
 
-from disk_usage_exporter.constants import METRIC_NAME, METRIC_DESCRIPTION, METRIC_LABEL_NAME
+from disk_usage_exporter.const import METRIC_NAME, METRIC_DESCRIPTION, METRIC_LABEL_NAME
 
 
 def add_value_to_metric(metric: Metric, raw_value: Dict[str, str]):
