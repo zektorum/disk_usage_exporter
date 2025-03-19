@@ -42,5 +42,11 @@ include = ["disk_usage_exporter"]
 [tool.pytest.ini_options]
 pythonpath = ["."]
 
+[project.optional-dependencies]
+test = [
+    "requests==2.32.3",
+    "pytest==8.3.4"
+]
+
 [project.scripts]
 disk_usage_exporter = "disk_usage_exporter.disk_usage_exporter:main"

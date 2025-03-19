@@ -152,3 +152,5 @@ sudo systemctl start disk_usage_exporter
 - [x] Add CI with linter
 - [x] Add tests
 - [x] Add name for python process
+- [ ] Add badges with code coverage and tests passing
+- [x] Add test that checks metrics after a few seconds after startup
