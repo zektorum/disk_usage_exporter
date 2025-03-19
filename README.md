@@ -84,7 +84,7 @@ python -m build
 ```
 3. Install package
 ```bash
-VERSION=0.0.1
+VERSION=0.0.2
 sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
 ```
 
@@ -154,3 +154,4 @@ sudo systemctl start disk_usage_exporter
 - [x] Add name for python process
 - [ ] Add badges with code coverage and tests passing
 - [x] Add test that checks metrics after a few seconds after startup
+- [ ] Add info about cmd args default values to README.md
