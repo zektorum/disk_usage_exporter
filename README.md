@@ -90,10 +90,11 @@ sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
 
 ## Usage
 ```
-disk_usage_exporter [-h] [--port PORT] [--search-root SEARCH_ROOT] [--max-depth MAX_DEPTH] [-d] [-v]
+usage: disk_usage_exporter [-h] [--addr ADDR] [--port PORT] [--search-root SEARCH_ROOT] [-d] [-v]
 
 options:
   -h, --help            show this help message and exit
+  --addr ADDR           specify metrics host
   --port PORT           specify metrics port
   --search-root SEARCH_ROOT
                         specify the directory that will be used to search for subdirectories to analyze
@@ -143,10 +144,11 @@ sudo systemctl start disk_usage_exporter
 - [x] Rename `constants.py` to `const.py`
 - [x] Add default host and port to `const.py`
 - [x] Add `--host` option
+- [x] Add `--host` description to `README.md`
 - [ ] Add `--max-depth` option
 - [ ] Make getting values asynchronous
 - [x] Make project structure similar to other prometheus exporters
 - [ ] Add informative logging messages
 - [x] Add CI with linter
 - [x] Add tests
-- [ ] Add name for python process
+- [x] Add name for python process
