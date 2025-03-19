@@ -8,6 +8,7 @@ from typing import Dict, Tuple
 import disk_usage_exporter.const as const
 
 from prometheus_client import start_http_server, Gauge
+from setproctitle import setproctitle
 import sh
 
 
@@ -118,6 +119,8 @@ def parse_args() -> argparse.Namespace:
 
 
 def main():
+    setproctitle(const.PROCESS_TITLE)
+
     args = parse_args()
     logger = get_logger(args.loglevel)
 
