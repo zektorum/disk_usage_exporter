@@ -31,6 +31,11 @@ def empty_gauge_metric() -> Gauge:
 
 
 @pytest.fixture
+def incorrect_raw_data() -> str:
+    return ""
+
+
+@pytest.fixture
 def raw_values() -> List[Dict[str, str]]:
     return [
         {"path": "/data",  "size": "15"},
