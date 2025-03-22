@@ -15,35 +15,35 @@ import sh
 def process_directories(
     search_root: str, metric: Gauge, label_name: str, logger: logging.Logger
 ):
-    for dir_path, dir_names, filenames in os.walk(search_root):
-        logger.debug(f"Directories: {dir_names}")
-        for dir_name in dir_names:
-            dir_name = os.path.join(search_root, dir_name)
+    dirs = [
+        file for file in os.listdir(search_root) if os.path.isdir(os.path.join(search_root, file))
+    ]
+    logger.info(f"Found dirs: {dirs}")
+    for dir_name in dirs:
+        dir_name = os.path.join(search_root, dir_name)
 
-            label_value, value = get_dir_stat(dir_name, logger)
-            if label_value == "" or value == "":
-                continue
+        logger.debug(f"Calculating '{dir_name}' size")
+        label_value, value = get_dir_stat(dir_name)
+        if label_value == const.INCORRECT_DIR_NAME or value == const.INCORRECT_DIR_SIZE:
+            continue
 
-            set_metric(metric, label_name, label_value, value)
-        break
+        logger.debug(f"{const.METRIC_NAME}{{path=\"{label_value}\"}}\t\t{float(value)}")
+        set_metric(metric, label_name, label_value, value)
 
 
-def parse_output(raw_data: str, logger: logging.Logger) -> Dict[str, str]:
+def parse_output(raw_data: str) -> Dict[str, str]:
     if raw_data:
         size, directory = raw_data.split()
     else:
-        size, directory = "", ""
-
-    logger.debug(f"Directory: {directory}")
-    logger.debug(f"Size: {size}")
+        size, directory = const.INCORRECT_DIR_SIZE, const. INCORRECT_DIR_NAME
 
     return {"directory": directory, "size": size}
 
 
-def get_dir_stat(dir_name: str, logger: logging.Logger) -> Tuple[str, str]:
+def get_dir_stat(dir_name: str) -> Tuple[str, str]:
     dir_stat = sh.du("-s", dir_name, _ok_code=[0, 1])
 
-    parsed_output = parse_output(dir_stat, logger)
+    parsed_output = parse_output(dir_stat)
     return parsed_output["directory"], parsed_output["size"]
 
 
@@ -128,6 +128,7 @@ def main():
     disk_usage = Gauge(const.METRIC_NAME, const.METRIC_DESCRIPTION, [label])
 
     start_http_server(args.port, args.addr)
+    logger.info(f"Starting listening {const.METRICS_HOST}:{const.METRICS_PORT}")
     try:
         while True:
             process_directories(args.search_root, disk_usage, label, logger)
