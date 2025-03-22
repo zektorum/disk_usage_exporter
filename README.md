@@ -105,7 +105,7 @@ options:
 ## Prometheus configuration
 1. Add a new job to Prometheus configuration:
 `/etc/prometheus/prometheus.yml`
-```yml
+```yaml
 ...
 scrape_configs:
   - job_name: "disk_usage_exporter"
@@ -132,11 +132,11 @@ ExecStart=disk_usage_exporter
 WantedBy=multi-user.target
 ```
 2. Reload the service files to include a new service:
-```
+```bash
 sudo systemctl daemon-reload
 ```
 3. Start service:
-```
+```bash
 sudo systemctl start disk_usage_exporter
 ```
 
@@ -148,10 +148,11 @@ sudo systemctl start disk_usage_exporter
 - [ ] Add `--max-depth` option
 - [ ] Make getting values asynchronous
 - [x] Make project structure similar to other prometheus exporters
-- [ ] Add informative logging messages
+- [x] Add informative logging messages
 - [x] Add CI with linter
 - [x] Add tests
 - [x] Add name for python process
 - [ ] Add badges with code coverage and tests passing
 - [x] Add test that checks metrics after a few seconds after startup
 - [ ] Add info about cmd args default values to README.md
+- [ ] Add `--exclude` option
