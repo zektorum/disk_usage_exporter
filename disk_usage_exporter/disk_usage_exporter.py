@@ -133,8 +133,9 @@ def main():
         while True:
             process_directories(args.search_root, disk_usage, label, logger)
     except Exception as e:
-        logger.error(e)
+        logger.error(f"Exception: {e}")
         logger.error(traceback.format_exc())
+        sys.exit(1)
 
 
 if __name__ == "__main__":
