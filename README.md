@@ -156,3 +156,5 @@ sudo systemctl start disk_usage_exporter
 - [x] Add test that checks metrics after a few seconds after startup
 - [ ] Add info about cmd args default values to README.md
 - [ ] Add `--exclude` option
+- [ ] Add documentation (docstring)
+- [x] Exit with non-zero code when exception caught
