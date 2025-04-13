@@ -84,7 +84,7 @@ python -m build
 ```
 3. Install package
 ```bash
-VERSION=0.0.2
+VERSION=0.1.0
 sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
 ```
 
