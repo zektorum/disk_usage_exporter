@@ -15,6 +15,14 @@ import sh
 def process_directories(
     search_root: str, metric: Gauge, label_name: str, logger: logging.Logger
 ):
+    """Calculate directory sizes and set metrics.
+
+    :param search_root: root path to search
+    :param metric: metric to be set
+    :param label_name: directory size metric name
+    :param logger: logger object
+    :return: None
+    """
     dirs = [
         file for file in os.listdir(search_root) if os.path.isdir(os.path.join(search_root, file))
     ]
@@ -32,6 +40,11 @@ def process_directories(
 
 
 def parse_output(raw_data: str) -> Dict[str, str]:
+    """Parse the output of `du` and return the directory name with size.
+
+    :param raw_data: `du` output
+    :return: dictionary in following format: {'directory': <directory_name>, 'size': <directory_size>}
+    """
     if raw_data:
         size, directory = raw_data.split()
     else:
@@ -41,6 +54,11 @@ def parse_output(raw_data: str) -> Dict[str, str]:
 
 
 def get_dir_stat(dir_name: str) -> Tuple[str, str]:
+    """Get the size of a directory using `du` from `coreutils` and return the name and size of the directory.
+
+    :param dir_name: name of the directory
+    :return: directory name, directory size
+    """
     dir_stat = sh.du(const.DU_ARGS, dir_name, _ok_code=const.VALID_DU_EXIT_CODES)
 
     parsed_output = parse_output(dir_stat)
@@ -48,6 +66,14 @@ def get_dir_stat(dir_name: str) -> Tuple[str, str]:
 
 
 def set_metric(metric: Gauge, label_name: str, label_value: str, value: str):
+    """Set the label and metric value.
+
+    :param metric: metric object
+    :param label_name: name of the label
+    :param label_value: the value of the specified label
+    :param value: value of the specified metric
+    :return: None
+    """
     metric.labels(**{label_name: label_value}).set(float(value))
 
 
