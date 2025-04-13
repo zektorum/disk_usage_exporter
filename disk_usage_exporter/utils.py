@@ -6,6 +6,11 @@ import disk_usage_exporter.const as const
 
 
 def get_logger(loglevel: str) -> logging.Logger:
+    """Create logger.
+
+    :param loglevel: one of the following values: logging.INFO or logging.DEBUG
+    :return: logger object
+    """
     logger = logging.getLogger(__name__)
     logger.setLevel(loglevel)
 
@@ -19,6 +24,10 @@ def get_logger(loglevel: str) -> logging.Logger:
 
 
 def parse_args() -> argparse.Namespace:
+    """Parse command line arguments.
+
+    :return: CLI args
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--addr",
