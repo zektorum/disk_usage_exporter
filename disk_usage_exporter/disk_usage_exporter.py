@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 import traceback
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 import disk_usage_exporter.const as const
 from disk_usage_exporter.utils import get_logger, parse_args
@@ -13,21 +13,30 @@ import sh
 
 
 def process_directories(
-    search_root: str, metric: Gauge, label_name: str, logger: logging.Logger
+    search_root: str, exclude_dirs: List[str], metric: Gauge, label_name: str, logger: logging.Logger
 ):
     """Calculate directory sizes and set metrics.
 
     :param search_root: root path to search
+    :param exclude_dirs: directories to be excluded from processing
     :param metric: metric to be set
     :param label_name: directory size metric name
     :param logger: logger object
     :return: None
     """
-    dirs = [
-        file for file in os.listdir(search_root) if os.path.isdir(os.path.join(search_root, file))
-    ]
-    logger.info(f"Found dirs: {dirs}")
-    for dir_name in dirs:
+    found_dirs = []
+    dirs_to_processing = []
+    for file in sorted(os.listdir(search_root)):
+        full_path = os.path.join(search_root, file)
+        if os.path.isdir(full_path):
+            found_dirs.append(full_path)
+            if full_path not in exclude_dirs:
+                dirs_to_processing.append(full_path)
+
+    logger.info(f"Found dirs: {found_dirs}")
+    logger.info(f"Excluded dirs: {exclude_dirs}")
+    logger.info(f"Dirs to processing: {dirs_to_processing}")
+    for dir_name in dirs_to_processing:
         dir_name = os.path.join(search_root, dir_name)
 
         logger.debug(f"Calculating '{dir_name}' size")
@@ -91,7 +100,7 @@ def main():
     logger.info(f"Starting listening {const.METRICS_HOST}:{const.METRICS_PORT}")
     try:
         while True:
-            process_directories(args.search_root, disk_usage_metric, metric_label, logger)
+            process_directories(args.search_root, args.exclude_dirs, disk_usage_metric, metric_label, logger)
     except Exception as e:
         logger.error(f"Exception: {e}")
         logger.error(traceback.format_exc())

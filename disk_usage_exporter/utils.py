@@ -53,6 +53,15 @@ def parse_args() -> argparse.Namespace:
         required=False,
         help="specify the directory that will be used to search for subdirectories to analyze",
     )
+    parser.add_argument(
+        "--exclude-dirs",
+        action="store",
+        nargs="*",
+        default=[],
+        dest="exclude_dirs",
+        required=False,
+        help="specify directories to be excluded from processing"
+    )
     # parser.add_argument(
     #     "--max-depth",
     #     action="store",
