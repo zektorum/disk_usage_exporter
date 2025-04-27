@@ -78,6 +78,7 @@ def set_metric(metric: Gauge, label_name: str, label_value: str, value: str):
 
 
 def main():
+    """Prometheus exporter for disk usage metrics."""
     setproctitle(const.PROCESS_TITLE)
 
     args = parse_args()
