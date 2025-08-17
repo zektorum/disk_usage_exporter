@@ -1,5 +1,9 @@
 # disk_usage_exporter
-Exporter for disk usage metrics.
+[![PyPI Version](https://img.shields.io/pypi/v/disk_usage_exporter)](https://pypi.org/project/disk_usage_exporter/)
+[![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://opensource.org/licenses/MIT)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
+
+Prometheus exporter for disk usage metrics that collects and exposes directory sizes.
 
 <details>
   <summary>Metrics example</summary>
@@ -71,7 +75,7 @@ Exporter for disk usage metrics.
 ## Installation
 ### From PyPI
 ```bash
-sudo -H pip install disk_usage_exporter
+pip install --user disk_usage_exporter
 ```
 ### From source
 1. Install `build` package
@@ -85,7 +89,7 @@ python -m build
 3. Install package
 ```bash
 VERSION=0.1.0
-sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
+pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
 ```
 
 ## Usage
@@ -159,3 +163,6 @@ sudo systemctl start disk_usage_exporter
 - [x] Add documentation (docstring)
 - [x] Exit with non-zero code when exception caught
 - [ ] Exclude directory name from `get_dir_size` return value
+- [ ] Add absent `main()` docstring
+- [ ] Move finding directories outside of loop
+- [ ] Add cmd arg with metrics path
