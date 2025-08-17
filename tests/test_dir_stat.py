@@ -1,9 +1,13 @@
+import os
 from typing import Dict, List
+
+import pytest
 
 from disk_usage_exporter.disk_usage_exporter import get_dir_stat
 
 
 class TestDirStat:
+    @pytest.mark.parametrize('sample_directory_structure_with_data', [os.path.join(os.getcwd(), "root")], indirect=True)
     def test_dir_size(self, sample_directory_structure_with_data: List[Dict[str, str]]):
         dirs = sample_directory_structure_with_data
 
