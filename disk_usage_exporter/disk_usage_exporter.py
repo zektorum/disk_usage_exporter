@@ -12,17 +12,13 @@ from setproctitle import setproctitle
 import sh
 
 
-def process_directories(
-    search_root: str, exclude_dirs: List[str], metric: Gauge, label_name: str, logger: logging.Logger
-):
-    """Calculate directory sizes and set metrics.
+def exclude_dirs(search_root: str, dirs_to_exclude: List[str], logger: logging.Logger) -> List[str]:
+    """Exclude directories from processing list.
 
     :param search_root: root path to search
-    :param exclude_dirs: directories to be excluded from processing
-    :param metric: metric to be set
-    :param label_name: directory size metric name
+    :param dirs_to_exclude: directories to be excluded from processing
     :param logger: logger object
-    :return: None
+    :return: ready to processing list of directories
     """
     found_dirs = []
     dirs_to_processing = []
@@ -30,13 +26,29 @@ def process_directories(
         full_path = os.path.join(search_root, file)
         if os.path.isdir(full_path):
             found_dirs.append(full_path)
-            if full_path not in exclude_dirs:
+            if full_path not in dirs_to_exclude:
                 dirs_to_processing.append(full_path)
 
     logger.info(f"Found dirs: {found_dirs}")
-    logger.info(f"Excluded dirs: {exclude_dirs}")
     logger.info(f"Dirs to processing: {dirs_to_processing}")
-    for dir_name in dirs_to_processing:
+
+    return dirs_to_processing
+
+
+def process_directories(
+    search_root: str, dirs_to_exclude: List[str], metric: Gauge, label_name: str, logger: logging.Logger
+):
+    """Calculate directory sizes and set metrics.
+
+    :param search_root: root path to search
+    :param dirs_to_exclude: directories to be excluded from processing
+    :param metric: metric to be set
+    :param label_name: directory size metric name
+    :param logger: logger object
+    :return: None
+    """
+    dirs_to_process = exclude_dirs(search_root, dirs_to_exclude, logger)
+    for dir_name in  dirs_to_process:
         dir_name = os.path.join(search_root, dir_name)
 
         logger.debug(f"Calculating '{dir_name}' size")
