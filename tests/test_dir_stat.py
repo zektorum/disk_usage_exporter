@@ -14,5 +14,4 @@ class TestDirStat:
         dirs = sample_directory_structure_with_data
 
         for dir_values in dirs:
-            name, size = get_dir_stat(dir_values["directory"])
-            assert dir_values["directory"] == name and dir_values["size"] == size
+            assert dir_values["size"] == get_dir_stat(dir_values["directory"])
