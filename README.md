@@ -1,6 +1,6 @@
 # disk_usage_exporter
 [![PyPI Version](https://img.shields.io/pypi/v/disk_usage_exporter)](https://pypi.org/project/disk_usage_exporter/)
-[![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/license-GPLv3-blue.svg)](https://opensource.org/licenses/gpl-3-0)
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
 
 Prometheus exporter for disk usage metrics that collects and exposes directory sizes.
@@ -147,24 +147,16 @@ sudo systemctl start disk_usage_exporter
 ```
 
 ## ToDo:
-- [x] Rename `constants.py` to `const.py`
-- [x] Add default host and port to `const.py`
-- [x] Add `--host` option
-- [x] Add `--host` description to `README.md`
 - [ ] Add `--max-depth` option
 - [ ] Make getting values asynchronous
-- [x] Make project structure similar to other prometheus exporters
-- [x] Add informative logging messages
-- [x] Add CI with linter
-- [x] Add tests
-- [x] Add name for python process
 - [ ] Add badges with code coverage and tests passing
-- [x] Add test that checks metrics after a few seconds after startup
 - [ ] Add info about cmd args default values to README.md
-- [x] Add `--exclude` option
-- [x] Add documentation (docstring)
-- [x] Exit with non-zero code when exception caught
 - [ ] Exclude directory name from `get_dir_size` return value
-- [ ] Add absent `main()` docstring
+- [x] Add absent `main()` docstring
 - [ ] Move finding directories outside of loop
 - [ ] Add cmd arg with metrics path
+- [ ] Add basic authentication
+- [ ] Create Grafana dashboard
+- [ ] Research about Prometheus exporters features
+- [ ] Add info about dependencies (coreutils)
+- [ ] Fix running exporter as root

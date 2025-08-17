@@ -10,7 +10,6 @@ METRIC_NAME = "disk_usage_by_directories"
 METRIC_DESCRIPTION = "Directory size"
 METRIC_LABEL_NAME = "path"
 DU_ARGS = "-s"
-INCORRECT_DIR_NAME = ""
 INCORRECT_DIR_SIZE = ""
 VALID_DU_EXIT_CODES = [0, 1]
 MAX_DEPTH = 1

@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 import traceback
-from typing import Dict, List, Tuple
+from typing import List
 
 import disk_usage_exporter.const as const
 from disk_usage_exporter.utils import get_logger, parse_args
@@ -48,19 +48,19 @@ def process_directories(
     :return: None
     """
     dirs_to_process = exclude_dirs(search_root, dirs_to_exclude, logger)
-    for dir_name in  dirs_to_process:
+    for dir_name in dirs_to_process:
         dir_name = os.path.join(search_root, dir_name)
 
         logger.debug(f"Calculating '{dir_name}' size")
-        label_value, value = get_dir_stat(dir_name)
-        if label_value == const.INCORRECT_DIR_NAME or value == const.INCORRECT_DIR_SIZE:
+        value = get_dir_stat(dir_name)
+        if value == const.INCORRECT_DIR_SIZE:
             continue
 
-        logger.debug(f"{const.METRIC_NAME}{{path=\"{label_value}\"}}\t\t{float(value)}")
-        set_metric(metric, label_name, label_value, value)
+        logger.debug(f"{const.METRIC_NAME}{{path=\"{dir_name}\"}}\t\t{float(value)}")
+        set_metric(metric, label_name, dir_name, value)
 
 
-def parse_output(raw_data: str) -> Dict[str, str]:
+def get_size_from_raw_output(raw_data: str) -> str:
     """Parse the output of `du` and return the directory name with size.
 
     :param raw_data: `du` output
@@ -69,12 +69,12 @@ def parse_output(raw_data: str) -> Dict[str, str]:
     if raw_data:
         size, directory = raw_data.split()
     else:
-        size, directory = const.INCORRECT_DIR_SIZE, const.INCORRECT_DIR_NAME
+        size = const.INCORRECT_DIR_SIZE
 
-    return {"directory": directory, "size": size}
+    return size
 
 
-def get_dir_stat(dir_name: str) -> Tuple[str, str]:
+def get_dir_stat(dir_name: str) -> str:
     """Get the size of a directory using `du` from `coreutils` and return the name and size of the directory.
 
     :param dir_name: name of the directory
@@ -82,8 +82,7 @@ def get_dir_stat(dir_name: str) -> Tuple[str, str]:
     """
     dir_stat = sh.du(const.DU_ARGS, dir_name, _ok_code=const.VALID_DU_EXIT_CODES)
 
-    parsed_output = parse_output(dir_stat)
-    return parsed_output["directory"], parsed_output["size"]
+    return get_size_from_raw_output(dir_stat)
 
 
 def set_metric(metric: Gauge, label_name: str, label_value: str, value: str):
