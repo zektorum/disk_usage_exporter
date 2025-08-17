@@ -90,7 +90,7 @@ sudo -H pip install dist/disk_usage_exporter-$VERSION-py3-none-any.whl
 
 ## Usage
 ```
-usage: disk_usage_exporter [-h] [--addr ADDR] [--port PORT] [--search-root SEARCH_ROOT] [-d] [-v]
+usage: disk_usage_exporter [-h] [--addr ADDR] [--port PORT] [--search-root SEARCH_ROOT] [--exclude-dirs [EXCLUDE_DIRS ...]] [-d] [-v]
 
 options:
   -h, --help            show this help message and exit
@@ -98,6 +98,8 @@ options:
   --port PORT           specify metrics port
   --search-root SEARCH_ROOT
                         specify the directory that will be used to search for subdirectories to analyze
+  --exclude-dirs [EXCLUDE_DIRS ...]
+                        specify directories to be excluded from processing
   -d, --debug           enable debug logs
   -v, --version         show program's version number and exit
 ```
@@ -155,7 +157,7 @@ sudo systemctl start disk_usage_exporter
 - [ ] Add badges with code coverage and tests passing
 - [x] Add test that checks metrics after a few seconds after startup
 - [ ] Add info about cmd args default values to README.md
-- [ ] Add `--exclude` option
+- [x] Add `--exclude` option
 - [x] Add documentation (docstring)
 - [x] Exit with non-zero code when exception caught
 - [ ] Exclude directory name from `get_dir_size` return value
