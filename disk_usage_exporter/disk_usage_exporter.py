@@ -69,7 +69,7 @@ def get_size_from_raw_output(raw_data: str) -> str:
     if raw_data:
         size, directory = raw_data.split()
     else:
-        size, directory = const.INCORRECT_DIR_SIZE, const.INCORRECT_DIR_NAME
+        size = const.INCORRECT_DIR_SIZE
 
     return size
 
