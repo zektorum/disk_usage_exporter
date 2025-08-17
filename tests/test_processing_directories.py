@@ -32,7 +32,7 @@ class TestExcludeDirs:
         ]
     )
     def test_exclude_dir(self, dirs_to_exclude: List[str], dirs_to_processing: List[str], sample_logger: logging.Logger,
-                         monkeypatch: Generator[pytest.MonkeyPatch]):
+                         monkeypatch: Generator[pytest.MonkeyPatch, None, None]):
         monkeypatch.setattr(os, "listdir", lambda path: self.directories_list)
         monkeypatch.setattr(os.path, "isdir", lambda path: True)
 
