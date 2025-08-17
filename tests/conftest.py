@@ -79,11 +79,20 @@ def sample_metric(empty_metric: Metric) -> Metric:
 
 
 @pytest.fixture
-def sample_directory_structure_with_data(request: pytest.FixtureRequest) -> List[Dict[str, str]]:
-    root_name = "root"
-    root_path = os.path.join(os.getcwd(), root_name)
+def root_path() -> str:
+    return os.path.join(os.getcwd(), "root")
+
+
+@pytest.fixture
+def sample_directories_list(request) -> List[str]:
+    return ["data", "opt", "media", "run"]
+
+
+@pytest.fixture
+def sample_directory_structure_with_data(root_path: str, sample_directories_list: List[str],
+                                         request: pytest.FixtureRequest) -> List[Dict[str, str]]:
     os.mkdir(root_path)
-    dirs = ["data", "opt", "media", "run"]
+    dirs = sample_directories_list
     values = []
     for dir_name in dirs:
         path = os.path.join(root_path, dir_name)
@@ -97,8 +106,5 @@ def sample_directory_structure_with_data(request: pytest.FixtureRequest) -> List
 
         values.append({"directory": path, "size": dir_size})
 
-    def cleanup():
-        shutil.rmtree(root_path)
-
-    request.addfinalizer(cleanup)
+    request.addfinalizer(lambda: shutil.rmtree(root_path))
     return values
