@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 import traceback
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 import disk_usage_exporter.const as const
 from disk_usage_exporter.utils import get_logger, parse_args
@@ -12,22 +12,43 @@ from setproctitle import setproctitle
 import sh
 
 
+def exclude_dirs(search_root: str, dirs_to_exclude: List[str], logger: logging.Logger) -> List[str]:
+    """Exclude directories from processing list.
+
+    :param search_root: root path to search
+    :param dirs_to_exclude: directories to be excluded from processing
+    :param logger: logger object
+    :return: ready to processing list of directories
+    """
+    found_dirs = []
+    dirs_to_processing = []
+    for file in sorted(os.listdir(search_root)):
+        full_path = os.path.join(search_root, file)
+        if os.path.isdir(full_path):
+            found_dirs.append(full_path)
+            if full_path not in dirs_to_exclude:
+                dirs_to_processing.append(full_path)
+
+    logger.info(f"Found dirs: {found_dirs}")
+    logger.info(f"Dirs to processing: {dirs_to_processing}")
+
+    return dirs_to_processing
+
+
 def process_directories(
-    search_root: str, metric: Gauge, label_name: str, logger: logging.Logger
+    search_root: str, dirs_to_exclude: List[str], metric: Gauge, label_name: str, logger: logging.Logger
 ):
     """Calculate directory sizes and set metrics.
 
     :param search_root: root path to search
+    :param dirs_to_exclude: directories to be excluded from processing
     :param metric: metric to be set
     :param label_name: directory size metric name
     :param logger: logger object
     :return: None
     """
-    dirs = [
-        file for file in os.listdir(search_root) if os.path.isdir(os.path.join(search_root, file))
-    ]
-    logger.info(f"Found dirs: {dirs}")
-    for dir_name in dirs:
+    dirs_to_process = exclude_dirs(search_root, dirs_to_exclude, logger)
+    for dir_name in  dirs_to_process:
         dir_name = os.path.join(search_root, dir_name)
 
         logger.debug(f"Calculating '{dir_name}' size")
@@ -91,7 +112,7 @@ def main():
     logger.info(f"Starting listening {const.METRICS_HOST}:{const.METRICS_PORT}")
     try:
         while True:
-            process_directories(args.search_root, disk_usage_metric, metric_label, logger)
+            process_directories(args.search_root, args.exclude_dirs, disk_usage_metric, metric_label, logger)
     except Exception as e:
         logger.error(f"Exception: {e}")
         logger.error(traceback.format_exc())

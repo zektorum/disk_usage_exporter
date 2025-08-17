@@ -2,7 +2,6 @@ import logging
 
 from disk_usage_exporter.release import __version__
 
-
 DEFAULT_LOG_LEVEL = logging.INFO
 PROCESS_TITLE = "disk_usage_exporter"
 METRICS_HOST = "127.0.0.1"
